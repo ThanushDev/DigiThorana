@@ -1,76 +1,83 @@
 import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Aura } from './Aura';
 import { Medallion } from './Medallion';
-
-const baseUrl = import.meta.env.BASE_URL || '/';
+import { Banner } from './Banner';
+import { WavingFlag } from './WavingFlag';
+import { AudioPlayer } from './AudioPlayer';
 
 const jatakaStories = [
-  { title: "Vessantara", img: `${baseUrl}images/thorana/panel1.png` },
-  { title: "Sama", img: `${baseUrl}images/thorana/panel2.png` },
-  { title: "Temiya", img: `${baseUrl}images/thorana/panel3.png` },
-  { title: "Mahajanaka", img: `${baseUrl}images/thorana/panel4.png` },
-  { title: "Nemi", img: `${baseUrl}images/thorana/panel5.png` },
-  { title: "Mahosadha", img: `${baseUrl}images/thorana/panel6.png` },
-  { title: "Bhuridatta", img: `${baseUrl}images/thorana/panel7.png` },
-  { title: "Sivi", img: `${baseUrl}images/thorana/panel8.png` },
+  { title: 'Vessantara', image: '/images/thorana/panel1.png' },
+  { title: 'Sama', image: '/images/thorana/panel2.png' },
+  { title: 'Temiya', image: '/images/thorana/panel3.png' },
+  { title: 'Mahajanaka', image: '/images/thorana/panel4.png' },
+  { title: 'Nemi', image: '/images/thorana/panel5.png' },
+  { title: 'Mahosadha', image: '/images/thorana/panel6.png' },
+  { title: 'Bhuridatta', image: '/images/thorana/panel7.png' },
+  { title: 'Sivi', image: '/images/thorana/panel8.png' },
 ];
 
-export function Pandol() {
-  const [isStarted, setIsStarted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const handleStart = () => {
-    setIsStarted(true);
-    if (audioRef.current) {
-      audioRef.current.play().catch(err => console.log("Audio play failed", err));
-    }
-  };
+export default function Pandol() {
+  const [hasStarted, setHasStarted] = useState(false);
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
-      {/* Music file path එක public folder එකේ තිබිය යුතුයි */}
-      <audio ref={audioRef} src={`${baseUrl}music.mp3`} loop />
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4 overflow-hidden">
+      
+      <AnimatePresence>
+        {!hasStarted ? (
+          /* ආරම්භක බොත්තම - මියුසික් වැඩ කිරීමට මෙය අත්‍යවශ්‍යයි */
+          <motion.button
+            exit={{ opacity: 0, scale: 0.9 }}
+            onClick={() => setHasStarted(true)}
+            className="z-50 px-10 py-4 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_40px_rgba(255,215,0,0.5)] border-2 border-yellow-400 hover:bg-yellow-500 transition-all"
+          >
+            තොරණ නැරඹීම ආරම්භ කරන්න
+          </motion.button>
+        ) : (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            className="relative w-full max-w-4xl aspect-square flex items-center justify-center"
+          >
+            {/* 1. Music Player - දැන් වැඩ කරයි */}
+            <AudioPlayer />
 
-      {!isStarted ? (
-        <button 
-          onClick={handleStart}
-          className="z-50 px-12 py-5 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_30px_gold] uppercase tracking-widest hover:scale-105 transition-all"
-        >
-          තොරණ නැරඹීම ආරම්භ කරන්න
-        </button>
-      ) : (
-        <div className="relative w-full max-w-5xl aspect-square flex items-center justify-center scale-90 md:scale-100">
-          
-          {/* බෞද්ධ කොඩිය (Flag) */}
-          <div className="absolute top-[-5%] z-50">
-             <img src={`${baseUrl}images/thorana/flag.png`} className="w-14 md:w-20 h-auto" alt="Buddhist Flag" />
-          </div>
+            {/* 2. බෞද්ධ කොඩිය - තොරණට උඩින්ම */}
+            <div className="absolute top-[-10%] z-40 scale-75 md:scale-100">
+              <WavingFlag />
+            </div>
 
-          <Aura />
+            {/* 3. තොරණේ ව්‍යුහය (Aura & Dots) */}
+            <Aura />
 
-          {/* මැද බුදු පිළිමය */}
-          <div className="relative w-[30%] h-[30%] z-30 rounded-full border-4 border-yellow-500 p-1 bg-black shadow-[0_0_80px_rgba(255,215,0,0.5)]">
-            <img 
-              src={`${baseUrl}images/thorana/buddha.png`} 
-              className="w-full h-full object-cover rounded-full" 
-              onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/400?text=Buddha')}
-            />
-          </div>
+            {/* 4. මැද බුදු පිළිමය */}
+            <div className="relative w-[32%] h-[32%] z-30 rounded-full border-4 border-yellow-500 p-1 bg-black shadow-[0_0_60px_rgba(255,215,0,0.4)]">
+              <img 
+                src="/images/thorana/buddha.png" 
+                className="w-full h-full object-cover rounded-full" 
+                alt="Buddha"
+              />
+            </div>
 
-          {/* ජාතක කතා පැනල් (Medallions) */}
-          {jatakaStories.map((story, i) => (
-            <Medallion 
-              key={i} 
-              title={story.title} 
-              image={story.img} 
-              angle={i * 45} 
-              delay={0.5 + (i * 0.1)} 
-              patternIndex={i + 1} 
-            />
-          ))}
-        </div>
-      )}
+            {/* 5. ජාතක කතා පැනල් 8 */}
+            {jatakaStories.map((story, index) => (
+              <Medallion
+                key={index}
+                image={story.image}
+                title={story.title}
+                angle={index * 45}
+                delay={0.5 + index * 0.1}
+                patternIndex={index + 1}
+              />
+            ))}
+
+            {/* 6. පහළ බැනරය */}
+            <div className="absolute bottom-[-15%] w-full z-40">
+              <Banner />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
