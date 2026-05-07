@@ -21,45 +21,43 @@ export default function Pandol() {
   const [hasStarted, setHasStarted] = useState(false);
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4 overflow-hidden">
-      
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden p-4">
       <AnimatePresence>
         {!hasStarted ? (
-          /* ආරම්භක බොත්තම - මියුසික් වැඩ කිරීමට මෙය අත්‍යවශ්‍යයි */
           <motion.button
-            exit={{ opacity: 0, scale: 0.9 }}
+            exit={{ opacity: 0, scale: 0.8 }}
             onClick={() => setHasStarted(true)}
-            className="z-50 px-10 py-4 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_40px_rgba(255,215,0,0.5)] border-2 border-yellow-400 hover:bg-yellow-500 transition-all"
+            className="z-50 px-10 py-4 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_30px_gold] border-2 border-yellow-400 uppercase"
           >
-            තොරණ නැරඹීම ආරම්භ කරන්න
+            තොරණ නැරඹීම ආරම්භ කරන්න (Music සමඟ)
           </motion.button>
         ) : (
           <motion.div 
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
-            className="relative w-full max-w-4xl aspect-square flex items-center justify-center"
+            className="relative w-[90vw] h-[90vw] max-w-[600px] max-h-[600px] flex items-center justify-center"
           >
-            {/* 1. Music Player - දැන් වැඩ කරයි */}
+            {/* Music */}
             <AudioPlayer />
 
-            {/* 2. බෞද්ධ කොඩිය - තොරණට උඩින්ම */}
-            <div className="absolute top-[-10%] z-40 scale-75 md:scale-100">
+            {/* Flag */}
+            <div className="absolute -top-[15%] z-40">
               <WavingFlag />
             </div>
 
-            {/* 3. තොරණේ ව්‍යුහය (Aura & Dots) */}
+            {/* Aura & Lights (පින්තූරෙ විදියටම) */}
             <Aura />
 
-            {/* 4. මැද බුදු පිළිමය */}
-            <div className="relative w-[32%] h-[32%] z-30 rounded-full border-4 border-yellow-500 p-1 bg-black shadow-[0_0_60px_rgba(255,215,0,0.4)]">
+            {/* Center Buddha Image */}
+            <div className="relative w-[35%] h-[35%] z-30 rounded-full border-4 border-yellow-500 overflow-hidden shadow-[0_0_50px_rgba(255,215,0,0.6)]">
               <img 
                 src="/images/thorana/buddha.png" 
-                className="w-full h-full object-cover rounded-full" 
-                alt="Buddha"
+                className="w-full h-full object-cover"
+                onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/200?text=Buddha')}
               />
             </div>
 
-            {/* 5. ජාතක කතා පැනල් 8 */}
+            {/* Medallions (පැනල් 8 රවුමට) */}
             {jatakaStories.map((story, index) => (
               <Medallion
                 key={index}
@@ -71,8 +69,8 @@ export default function Pandol() {
               />
             ))}
 
-            {/* 6. පහළ බැනරය */}
-            <div className="absolute bottom-[-15%] w-full z-40">
+            {/* Banner */}
+            <div className="absolute -bottom-[20%] w-full z-40">
               <Banner />
             </div>
           </motion.div>
