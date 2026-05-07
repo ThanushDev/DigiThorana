@@ -1,102 +1,59 @@
-import React, { lazy } from 'react';
-import { motion } from 'framer-motion';
-import { getPattern } from './lightPatterns';
+import React from 'react';
+
 interface MedallionProps {
   image: string;
   title: string;
-  angle: number; // in degrees, 0 is top
-  delay: number;
-  patternIndex: number;
+  isActive?: boolean;
 }
-export function Medallion({
-  image,
-  title,
-  angle,
-  delay,
-  patternIndex
-}: MedallionProps) {
-  const radian = (angle - 90) * (Math.PI / 180);
-  const radius = 38;
-  const left = `${50 + radius * Math.cos(radian)}%`;
-  const top = `${50 + radius * Math.sin(radian)}%`;
-  const pattern = getPattern(patternIndex);
-  const radii = [46, 42, 38]; // outer, middle, inner
+
+export const Medallion: React.FC<MedallionProps> = ({ image, title, isActive }) => {
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        scale: 0,
-        x: '-50%',
-        y: '-50%'
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-        x: '-50%',
-        y: '-50%'
-      }}
-      transition={{
-        delay,
-        type: 'spring',
-        stiffness: 100,
-        damping: 15
-      }}
-      className="absolute flex flex-col items-center justify-center"
-      style={{
-        left,
-        top,
-        width: '22%',
-        height: '22%'
-      }}>
+    <div className={`relative w-full h-full group cursor-pointer ${isActive ? 'scale-110' : ''}`}>
+      {/* Outer Glow Ring */}
+      <div className={`absolute -inset-2 rounded-full blur-md transition-opacity duration-500 ${isActive ? 'bg-yellow-500/40 opacity-100' : 'bg-blue-500/20 opacity-0 group-hover:opacity-100'}`} />
       
-      <div className="relative w-full h-full rounded-full flex items-center justify-center">
-        <svg
-          viewBox="0 0 100 100"
-          className="absolute inset-0 w-full h-full scale-[1.25] pointer-events-none drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">
-          
-          {pattern.rings.map((ring, i) =>
-          <circle
-            key={i}
-            cx="50"
-            cy="50"
-            r={radii[i]}
-            fill="none"
-            stroke={ring.color}
-            strokeWidth={ring.strokeWidth}
-            strokeDasharray={ring.dashArray}
-            strokeLinecap="round"
-            className={ring.animationClass} />
+      {/* Rotating Border Pattern */}
+      <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none">
+        <circle
+          cx="50%"
+          cy="50%"
+          r="48%"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="4"
+          className={`text-yellow-500/30 ${isActive ? 'light-ring-fast' : 'light-ring-slow'}`}
+          strokeDasharray="4 8"
+        />
+        <circle
+          cx="50%"
+          cy="50%"
+          r="44%"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className={`text-white/20 ${isActive ? 'light-ring-very-fast' : 'light-ring-medium'}`}
+          strokeDasharray="2 4"
+        />
+      </svg>
 
-          )}
-        </svg>
-
-        <div className="w-[85%] h-[85%] rounded-full overflow-hidden border-2 border-yellow-600 relative z-10 box-glow">
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover"
-            loading="lazy" />
-          
-          <div className="absolute inset-0 bg-black/20 mix-blend-overlay"></div>
-        </div>
+      {/* Image Container */}
+      <div className={`relative w-full h-full rounded-full overflow-hidden border-2 transition-all duration-500 ${isActive ? 'border-yellow-400 box-glow scale-105' : 'border-white/20 group-hover:border-white/40'}`}>
+        <img 
+          src={image} 
+          alt={title} 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        
+        {/* Overlay for inactive states */}
+        <div className={`absolute inset-0 bg-black/20 transition-opacity duration-500 ${isActive ? 'opacity-0' : 'opacity-40 group-hover:opacity-0'}`} />
       </div>
 
-      <motion.div
-        initial={{
-          opacity: 0
-        }}
-        animate={{
-          opacity: 1
-        }}
-        transition={{
-          delay: delay + 0.5
-        }}
-        className="absolute -bottom-6 md:-bottom-8 w-[150%] text-center">
-        
-        <span className="text-[8px] md:text-xs lg:text-sm font-semibold text-yellow-400 text-glow whitespace-nowrap bg-black/60 px-2 py-0.5 rounded-full border border-yellow-500/30">
+      {/* Story Label (Hidden by default, shown on hover/active) */}
+      <div className={`absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap transition-all duration-300 pointer-events-none ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'}`}>
+        <span className="px-3 py-1 bg-black/80 text-yellow-500 text-xs font-bold rounded-full border border-yellow-500/30 sinhala-text">
           {title}
         </span>
-      </motion.div>
-    </motion.div>);
-
-}
+      </div>
+    </div>
+  );
+};
