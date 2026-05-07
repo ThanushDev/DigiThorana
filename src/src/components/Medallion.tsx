@@ -2,17 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { getPattern } from './lightPatterns';
 
-interface MedallionProps {
-  image: string;
-  title: string;
-  angle: number;
-  delay: number;
-  patternIndex: number;
-}
-
-export function Medallion({ image, title, angle, delay, patternIndex }: MedallionProps) {
+export function Medallion({ image, title, angle, delay, patternIndex }: any) {
   const radian = (angle - 90) * (Math.PI / 180);
-  const radius = 38; // Constant radius for perfect circle
+  const radius = 38; 
   const left = `${50 + radius * Math.cos(radian)}%`;
   const top = `${50 + radius * Math.sin(radian)}%`;
   const pattern = getPattern(patternIndex);
@@ -23,17 +15,17 @@ export function Medallion({ image, title, angle, delay, patternIndex }: Medallio
       animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
       transition={{ delay, type: 'spring', stiffness: 100 }}
       className="absolute flex flex-col items-center justify-center"
-      style={{ left, top, width: '22%', height: '22%' }}
+      style={{ left, top, width: '21%', height: '21%' }}
     >
       <div className="relative w-full h-full flex items-center justify-center">
-        {/* Animated Light Rings */}
-        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full scale-[1.2] pointer-events-none">
-          {pattern.rings.map((ring, i) => (
+        {/* Dynamic Light Rings from your 2nd image logic */}
+        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full scale-[1.2] pointer-events-none drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+          {pattern.rings.map((ring: any, i: number) => (
             <circle
               key={i}
               cx="50"
               cy="50"
-              r={45 - i * 5}
+              r={45 - i * 4}
               fill="none"
               stroke={ring.color}
               strokeWidth={ring.strokeWidth}
@@ -43,15 +35,14 @@ export function Medallion({ image, title, angle, delay, patternIndex }: Medallio
           ))}
         </svg>
 
-        {/* Fully Visible Image */}
-        <div className="w-[88%] h-[88%] rounded-full overflow-hidden border-2 border-yellow-500 z-10 bg-black box-glow">
-          <img src={image} alt={title} className="w-full h-full object-cover" loading="lazy" />
+        {/* Image Container - FULL VIEW */}
+        <div className="w-[88%] h-[88%] rounded-full overflow-hidden border-2 border-yellow-500/50 z-10 bg-black shadow-[0_0_15px_rgba(234,179,8,0.3)]">
+          <img src={image} alt={title} className="w-full h-full object-cover" />
         </div>
       </div>
 
-      {/* Label beneath medallion */}
-      <div className="absolute -bottom-8 whitespace-nowrap z-20">
-        <span className="text-[10px] md:text-xs font-bold text-yellow-400 bg-black/80 px-2 py-0.5 rounded-full border border-yellow-600/50 shadow-lg">
+      <div className="absolute -bottom-8 bg-black/70 px-2 py-0.5 rounded border border-yellow-600/30">
+        <span className="text-[9px] md:text-xs font-bold text-yellow-500 whitespace-nowrap uppercase tracking-tighter">
           {title}
         </span>
       </div>
