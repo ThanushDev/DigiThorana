@@ -6,51 +6,51 @@ import { Medallion } from './Medallion';
 const baseUrl = import.meta.env.BASE_URL || '/';
 
 const jatakaStories = [
-  { title: "වෙස්සන්තර", img: `${baseUrl}images/thorana/panel1.png` },
-  { title: "සාම", img: `${baseUrl}images/thorana/panel2.png` },
-  { title: "තේමිය", img: `${baseUrl}images/thorana/panel3.png` },
-  { title: "මහාජනක", img: `${baseUrl}images/thorana/panel4.png` },
-  { title: "නේමි", img: `${baseUrl}images/thorana/panel5.png` },
-  { title: "මහෝෂධ", img: `${baseUrl}images/thorana/panel6.png` },
-  { title: "භූරිදත්ත", img: `${baseUrl}images/thorana/panel7.png` },
-  { title: "සීවි", img: `${baseUrl}images/thorana/panel8.png` },
+  { title: "Vessantara", img: `${baseUrl}images/thorana/panel1.png` },
+  { title: "Sama", img: `${baseUrl}images/thorana/panel2.png` },
+  { title: "Temiya", img: `${baseUrl}images/thorana/panel3.png` },
+  { title: "Mahajanaka", img: `${baseUrl}images/thorana/panel4.png` },
+  { title: "Nemi", img: `${baseUrl}images/thorana/panel5.png` },
+  { title: "Mahosadha", img: `${baseUrl}images/thorana/panel6.png` },
+  { title: "Bhuridatta", img: `${baseUrl}images/thorana/panel7.png` },
+  { title: "Sivi", img: `${baseUrl}images/thorana/panel8.png` },
 ];
 
 export function Pandol() {
-  const [started, setStarted] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const startThorana = () => {
-    setStarted(true);
+  const handleStart = () => {
+    setIsStarted(true);
     if (audioRef.current) {
-      audioRef.current.play().catch(e => console.log("Music error: ", e));
+      audioRef.current.play().catch(err => console.log("Audio play failed", err));
     }
   };
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
-      {/* 1. මියුසික් ෆයිල් එක - music.mp3 නමින් public folder එකේ තියෙන්න ඕනේ */}
+      {/* Music file path එක public folder එකේ තිබිය යුතුයි */}
       <audio ref={audioRef} src={`${baseUrl}music.mp3`} loop />
 
-      {!started ? (
+      {!isStarted ? (
         <button 
-          onClick={startThorana}
+          onClick={handleStart}
           className="z-50 px-12 py-5 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_30px_gold] uppercase tracking-widest hover:scale-105 transition-all"
         >
           තොරණ නැරඹීම ආරම්භ කරන්න
         </button>
       ) : (
-        <div className="relative w-full max-w-5xl aspect-square flex items-center justify-center">
+        <div className="relative w-full max-w-5xl aspect-square flex items-center justify-center scale-90 md:scale-100">
           
-          {/* 2. බෞද්ධ කොඩිය (Flag) */}
-          <div className="absolute top-[0%] z-50 animate-bounce">
-             <img src={`${baseUrl}images/thorana/flag.png`} className="w-16 h-auto" alt="Flag" />
+          {/* බෞද්ධ කොඩිය (Flag) */}
+          <div className="absolute top-[-5%] z-50">
+             <img src={`${baseUrl}images/thorana/flag.png`} className="w-14 md:w-20 h-auto" alt="Buddhist Flag" />
           </div>
 
           <Aura />
 
-          {/* 3. මැද බුදු පිළිමය සහ ග්ලෝ එක */}
-          <div className="relative w-[32%] h-[32%] z-30 rounded-full border-4 border-yellow-500 p-1 bg-black shadow-[0_0_100px_rgba(255,215,0,0.6)]">
+          {/* මැද බුදු පිළිමය */}
+          <div className="relative w-[30%] h-[30%] z-30 rounded-full border-4 border-yellow-500 p-1 bg-black shadow-[0_0_80px_rgba(255,215,0,0.5)]">
             <img 
               src={`${baseUrl}images/thorana/buddha.png`} 
               className="w-full h-full object-cover rounded-full" 
@@ -58,14 +58,14 @@ export function Pandol() {
             />
           </div>
 
-          {/* 4. පැනල් 8 (Medallions) */}
+          {/* ජාතක කතා පැනල් (Medallions) */}
           {jatakaStories.map((story, i) => (
             <Medallion 
               key={i} 
               title={story.title} 
               image={story.img} 
               angle={i * 45} 
-              delay={i * 0.1} 
+              delay={0.5 + (i * 0.1)} 
               patternIndex={i + 1} 
             />
           ))}
