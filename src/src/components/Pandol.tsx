@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Aura } from './Aura';
 import { Medallion } from './Medallion';
@@ -9,26 +9,20 @@ import { WavingFlag } from './WavingFlag';
 const baseUrl = import.meta.env.BASE_URL || '/';
 
 const jatakaStories = [
-  { title: 'Vessantara', image: `${baseUrl}images/thorana/panel1.png` },
-  { title: 'Sama', image: `${baseUrl}images/thorana/panel2.png` },
-  { title: 'Temiya', image: `${baseUrl}images/thorana/panel3.png` },
-  { title: 'Mahajanaka', image: `${baseUrl}images/thorana/panel4.png` },
-  { title: 'Nemi', image: `${baseUrl}images/thorana/panel5.png` },
-  { title: 'Mahosadha', image: `${baseUrl}images/thorana/panel6.png` },
-  { title: 'Bhuridatta', image: `${baseUrl}images/thorana/panel7.png` },
-  { title: 'Sivi', image: `${baseUrl}images/thorana/panel8.png` },
+  { id: 1, title: 'ඡද්දන්ත ජාතකය', image: `${baseUrl}images/thorana/panel1.png`, description: 'ඇත් රජව උපන් සමය.' },
+  { id: 2, title: 'මහාජනක ජාතකය', image: `${baseUrl}images/thorana/panel2.png`, description: 'නැව ගිලුණු පසු මුහුදේ පිනූ සමය.' },
+  { id: 3, title: 'විධුර පණ්ඩිත ජාතකය', image: `${baseUrl}images/thorana/panel3.png`, description: 'ප්‍රඥාව පෙන්වූ සමය.' },
+  { id: 4, title: 'වෙස්සන්තර ජාතකය', image: `${baseUrl}images/thorana/panel4.png`, description: 'දන් දුන් උතුම් සමය.' },
+  { id: 5, title: 'සාම ජාතකය', image: `${baseUrl}images/thorana/panel5.png`, description: 'මව්පිය උපස්ථානය කළ සමය.' },
+  { id: 6, title: 'මහෞෂධ ජාතකය', image: `${baseUrl}images/thorana/panel6.png`, description: 'නුවණින් ගැටලු විසඳූ සමය.' },
+  { id: 7, title: 'සීවි ජාතකය', image: `${baseUrl}images/thorana/panel7.png`, description: 'ඇස් දන් දුන් සමය.' },
+  { id: 8, title: 'නිමි ජාතකය', image: `${baseUrl}images/thorana/panel8.png`, description: 'දෙව්ලොව සංචාරය කළ සමය.' },
 ];
 
 export default function Pandol() {
   const [hasStarted, setHasStarted] = useState(false);
-  const [loadedImagesCount, setLoadedImagesCount] = useState(0);
+  const [activeStory, setActiveStory] = useState<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const totalImages = jatakaStories.length + 2; // +1 for Buddha, +1 for Flag
-
-  const handleImageLoad = () => {
-    setLoadedImagesCount(prev => prev + 1);
-  };
 
   const startThorana = () => {
     setHasStarted(true);
@@ -37,80 +31,84 @@ export default function Pandol() {
     }
   };
 
-  const allImagesLoaded = loadedImagesCount >= totalImages;
-
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4 overflow-hidden relative sinhala-text">
-      
-      {/* Background Music */}
+    <div className="fixed inset-0 bg-black flex flex-col items-center justify-center overflow-hidden p-4">
       <audio ref={audioRef} src={`${baseUrl}vesak-music.mp3`} loop />
 
-      {!allImagesLoaded && (
-        <div className="z-50 text-center text-yellow-500 text-xl font-bold animate-pulse">
-          තොරණ සූදානම් වෙමින් පවතිනවා... {Math.round((loadedImagesCount / totalImages) * 100)}%
-        </div>
-      )}
-
-      {allImagesLoaded && (
-        <AnimatePresence>
-          {!hasStarted ? (
-            <motion.button
-              exit={{ opacity: 0, scale: 0.8 }}
-              onClick={handleStart}
-              className="z-50 px-10 py-4 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_40px_rgba(255,215,0,0.5)] border-2 border-yellow-400 uppercase"
+      <AnimatePresence>
+        {!hasStarted ? (
+          <motion.div exit={{ opacity: 0 }} className="flex flex-col items-center gap-6">
+            <h1 className="text-yellow-500 text-3xl font-bold animate-pulse">දිජිටල් වෙසක් තොරණ</h1>
+            <button
+              onClick={startThorana}
+              className="px-10 py-4 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_30px_gold] border-2 border-yellow-400 uppercase hover:scale-105 transition-transform"
             >
-              තොරණ නැරඹීම ආරම්භ කරන්න (Music සමඟ)
-            </motion.button>
-          ) : (
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              className="relative w-full max-w-[1200px] flex flex-col items-center"
-            >
-              {/* Top: Waving Flag */}
-              <div className="relative mb-8 md:mb-12">
-                 <WavingFlag onImageLoad={handleImageLoad} />
+              නැරඹීම ආරම්භ කරන්න
+            </button>
+          </motion.div>
+        ) : (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            className="relative w-full max-w-[1000px] h-full flex flex-col items-center justify-center"
+          >
+            {/* Top Ornament */}
+            <div className="absolute top-[5%] z-40 scale-75 md:scale-100">
+              <WavingFlag />
+            </div>
+
+            {/* Main Thorana Structure */}
+            <div className="relative w-[85vmin] h-[85vmin] flex items-center justify-center">
+              <Aura />
+              
+              {/* Buddha Center */}
+              <div className="relative w-[30%] h-[30%] z-30 rounded-full border-4 border-yellow-500 overflow-hidden shadow-[0_0_50px_rgba(255,215,0,0.6)] bg-black">
+                <img 
+                  src={`${baseUrl}images/thorana/buddha.png`} 
+                  className="w-full h-full object-cover"
+                  alt="Buddha"
+                />
               </div>
 
-              {/* Central Pandol Container */}
-              <div className="relative w-full aspect-square flex items-center justify-center scale-90 md:scale-100 -mt-8 md:-mt-12">
-                
-                {/* Aura */}
-                <Aura />
+              {/* Medallions */}
+              {jatakaStories.map((story, index) => (
+                <Medallion
+                  key={story.id}
+                  image={story.image}
+                  title={story.title}
+                  angle={index * 45}
+                  delay={0.5 + index * 0.1}
+                  patternIndex={index + 1}
+                  onClick={() => setActiveStory(story)}
+                />
+              ))}
+            </div>
 
-                {/* Buddha Center */}
-                <div className="relative w-[32%] h-[32%] z-30 rounded-full border-4 border-yellow-500 overflow-hidden shadow-[0_0_60px_rgba(255,215,0,0.5)] bg-black">
-                  <img 
-                    src={`${baseUrl}images/thorana/buddha.png`} 
-                    className="w-full h-full object-cover"
-                    alt="Buddha"
-                    onLoad={handleImageLoad}
-                    onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/200?text=Buddha')}
-                  />
-                </div>
+            {/* 🛑 Bottom Banner (දැන් ලොකුයි) 🛑 */}
+            <div className="absolute bottom-[2%] w-[95%] md:w-[110%] z-40 transition-all">
+              <Banner />
+            </div>
 
-                {/* Medallions (පැනල් 8) */}
-                {jatakaStories.map((story, index) => (
-                  <Medallion
-                    key={index}
-                    image={story.image}
-                    title={story.title}
-                    angle={index * 45}
-                    delay={0.5 + index * 0.15}
-                    patternIndex={index + 1}
-                    onImageLoad={handleImageLoad}
-                  />
-                ))}
-              </div>
+            {/* Side Ornaments */}
+            <div className="absolute left-[2%] top-[30%] hidden lg:block"> <SideDecoration type="sun" patternIndex={2} delay={1} /> </div>
+            <div className="absolute right-[2%] top-[30%] hidden lg:block"> <SideDecoration type="moon" patternIndex={9} delay={1.2} /> </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-              {/* 🛑 bottom banner - දැන් ලොකුයි සහ පළලයි! 🛑 */}
-              <div className="w-full max-w-7xl z-40 -mt-16 md:-mt-24 pb-8 md:pb-12">
-                <Banner />
-              </div>
+      {/* Story Modal */}
+      <AnimatePresence>
+        {activeStory && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }} className="bg-zinc-900 border-2 border-yellow-500 p-6 rounded-2xl max-w-sm w-full text-center">
+              <h2 className="text-2xl font-bold text-yellow-500 mb-4">{activeStory.title}</h2>
+              <img src={activeStory.image} className="w-full h-48 object-cover rounded-lg mb-4 border border-yellow-500/30" />
+              <p className="text-gray-300 mb-6">{activeStory.description}</p>
+              <button onClick={() => setActiveStory(null)} className="px-6 py-2 bg-yellow-500 text-black font-bold rounded-full">වසා දමන්න</button>
             </motion.div>
-          )}
-        </AnimatePresence>
-      )}
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
