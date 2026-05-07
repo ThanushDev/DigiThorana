@@ -1,11 +1,15 @@
 import React from 'react';
-import { AudioPlayer } from './components/AudioPlayer';
-import { Pandol } from './components/Pandol';
+// Pandol කොම්පෝනන්ට් එක Named Import එකක් විදිහට ගන්නවා
+import { Pandol } from './src/components/Pandol'; 
+import './index.css';
+
 export function App() {
   return (
-    <main className="bg-black min-h-screen w-full relative selection:bg-yellow-500/30">
-      <AudioPlayer />
+    <div className="w-full h-screen bg-black">
+      {/* ඔයාගේ අලුත් Pandol කොම්පෝනන්ට් එක */}
       <Pandol />
-    </main>);
-
+    </div>
+  );
 }
+
+export default App;
