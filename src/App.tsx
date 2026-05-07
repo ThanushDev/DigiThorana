@@ -1,11 +1,12 @@
 import React from 'react';
-import { AudioPlayer } from './src/components/AudioPlayer';
-import { Pandol } from './src/components/Pandol';
+// src/App.tsx එකේ ඉඳන් බලද්දී components තියෙන්නේ src/components/ වල නම්:
+import { AudioPlayer } from './src/components/AudioPlayer'; 
+import Pandol from './src/components/Pandol'; 
+
 export function App() {
   return (
-    <main className="bg-black min-h-screen w-full relative selection:bg-yellow-500/30">
-      <AudioPlayer />
+    <main className="min-h-screen bg-black">
       <Pandol />
-    </main>);
-
+    </main>
+  );
 }
