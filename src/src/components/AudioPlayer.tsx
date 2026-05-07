@@ -9,10 +9,12 @@ export function AudioPlayer() {
   const audioUrl =
   'https://cdn.pixabay.com/download/audio/2022/01/26/audio_d0c6ff1cb8.mp3?filename=meditation-bowl-singing-bowl-zen-music-111820.mp3';
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.5;
-    }
-  }, []);
+  if (audioRef.current) {
+    audioRef.current.volume = 0.5;
+    audioRef.current.play().catch((e) => console.log("Auto-play blocked:", e));
+    setIsPlaying(true);
+  }
+}, []);
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
