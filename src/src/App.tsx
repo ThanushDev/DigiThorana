@@ -1,12 +1,10 @@
 import React from 'react';
-// Pandol කොම්පෝනන්ට් එක Named Import එකක් විදිහට ගන්නවා
-import { Pandol } from './src/components/Pandol'; 
+import Pandol from './src/components/Pandol'; // Default Import එකක් ලෙස ගන්න
 import './index.css';
 
 export function App() {
   return (
     <div className="w-full h-screen bg-black">
-      {/* ඔයාගේ අලුත් Pandol කොම්පෝනන්ට් එක */}
       <Pandol />
     </div>
   );
