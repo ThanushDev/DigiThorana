@@ -1,12 +1,15 @@
 import React from 'react';
-// src/App.tsx එකේ ඉඳන් බලද්දී components තියෙන්නේ src/components/ වල නම්:
-import { AudioPlayer } from './src/components/AudioPlayer'; 
-import Pandol from './src/components/Pandol'; 
+// Pandol කොම්පෝනන්ට් එක Named Import එකක් විදිහට ගන්නවා
+import { Pandol } from './src/components/Pandol'; 
+import './index.css';
 
 export function App() {
   return (
-    <main className="min-h-screen bg-black">
+    <div className="w-full h-screen bg-black">
+      {/* ඔයාගේ අලුත් Pandol කොම්පෝනන්ට් එක */}
       <Pandol />
-    </main>
+    </div>
   );
 }
+
+export default App;
