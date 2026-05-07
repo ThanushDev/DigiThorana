@@ -1,33 +1,54 @@
 import React from 'react';
+import { getPattern } from './lightPatterns';
 
 interface MedallionProps {
   image: string;
   title: string;
-  isActive?: boolean;
+  patternIndex: number;
 }
 
-export const Medallion: React.FC<MedallionProps> = ({ image, title, isActive }) => {
+export const Medallion: React.FC<MedallionProps> = ({ image, title, patternIndex }) => {
+  const pattern = getPattern(patternIndex);
+  const radii = [48, 44, 40]; // SVG එක මැදට එන radii values
+
   return (
-    <div className={`relative w-full h-full group cursor-pointer transition-transform duration-300 ${isActive ? 'scale-110' : 'hover:scale-105'}`}>
-      {/* Light Glow Effect */}
-      <div className={`absolute -inset-2 rounded-full blur-md transition-opacity duration-500 ${isActive ? 'bg-yellow-500/60 opacity-100' : 'bg-yellow-500/20 opacity-0 group-hover:opacity-100'}`} />
+    <div className="relative w-full h-full group cursor-pointer flex items-center justify-center">
       
-      {/* Image Container */}
-      <div className={`relative w-full h-full rounded-full overflow-hidden border-2 transition-all duration-500 ${isActive ? 'border-yellow-400 box-glow' : 'border-yellow-600/50 group-hover:border-yellow-400'}`}>
+      {/* Light Pattern Rings (SVG) */}
+      <svg
+        viewBox="0 0 100 100"
+        className="absolute inset-0 w-full h-full scale-[1.2] pointer-events-none z-20"
+      >
+        {pattern.rings.map((ring, i) => (
+          <circle
+            key={i}
+            cx="50"
+            cy="50"
+            r={radii[i]}
+            fill="none"
+            stroke={ring.color}
+            strokeWidth={ring.strokeWidth}
+            strokeDasharray={ring.dashArray}
+            className={ring.animationClass}
+          />
+        ))}
+      </svg>
+      
+      {/* Central Image */}
+      <div className="relative w-[80%] h-[80%] rounded-full overflow-hidden border-2 border-yellow-500/50 z-10 box-glow transition-transform duration-500 group-hover:scale-105">
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          loading="lazy" // images ඉක්මනින් ලෝඩ් වෙන්න උදව් වෙනවා
+          className="w-full h-full object-cover"
+          loading="eager" // Preloader එක නිසා මෙතන eager දැම්මම එකපාර පේනවා
         />
-        {/* Overlay for better visibility */}
-        <div className={`absolute inset-0 bg-black/20 transition-opacity duration-500 ${isActive ? 'opacity-0' : 'opacity-30 group-hover:opacity-0'}`} />
+        <div className="absolute inset-0 bg-black/10 group-hover:opacity-0 transition-opacity" />
       </div>
 
-      {/* Label */}
-      <div className={`absolute -bottom-6 left-1/2 -translate-x-1/2 transition-all duration-300 w-max ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-        <span className="px-2 py-0.5 bg-black/90 text-yellow-500 text-[10px] md:text-xs font-bold rounded-full border border-yellow-500/50 shadow-lg">
-          {title.split('.')[0]}
+      {/* Number Label */}
+      <div className="absolute -bottom-2 z-30">
+        <span className="px-2 py-0.5 bg-black/80 text-yellow-500 text-[10px] font-bold rounded-full border border-yellow-500/50">
+          {title}
         </span>
       </div>
     </div>
