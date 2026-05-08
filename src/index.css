@@ -4,35 +4,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🌟 Creative Light Animations 🌟 */
-
-/* 1. ලයිට් එක දිගේ දුවන Animation එක */
-@keyframes light-chase {
-  from { stroke-dashoffset: 20; }
+/* 🌟 Advanced Thorana Light Animations 🌟 */
+@keyframes run-forward {
+  from { stroke-dashoffset: 100; }
   to { stroke-dashoffset: 0; }
 }
 
-/* 2. ලයිට් නිවී නිවී පත්තුවෙන Animation එක */
-@keyframes light-blink {
-  0%, 100% { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 5px gold); }
-  50% { opacity: 0.3; filter: brightness(0.8); }
+@keyframes run-backward {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 100; }
 }
 
-/* 3. පැනල කැරකෙන Animation එක */
-@keyframes rotate-slow {
+@keyframes spin-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.animate-chase { animation: light-chase 1.5s linear infinite; }
-.animate-blink { animation: light-blink 0.8s ease-in-out infinite; }
-.animate-rotate-slow { animation: rotate-slow 20s linear infinite; }
+@keyframes spin-slow-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes blink-fast {
+  0%, 100% { opacity: 1; filter: brightness(1.5); }
+  50% { opacity: 0.2; filter: brightness(0.5); }
+}
+
+/* Utilities for React Components */
+.light-chase { animation: run-forward 1.5s linear infinite; }
+.light-chase-fast { animation: run-forward 0.8s linear infinite; }
+.light-chase-reverse { animation: run-backward 1.2s linear infinite; }
+.aura-spin { animation: spin-slow 15s linear infinite; transform-origin: center; }
+.aura-spin-reverse { animation: spin-slow-reverse 20s linear infinite; transform-origin: center; }
+.bulb-blink { animation: blink-fast 0.5s steps(2, start) infinite; }
 
 body {
   background-color: #000;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden; /* Scroll වෙන්නේ නැති වෙන්න */
+  margin: 0;
+  overflow: hidden; /* මේකෙන් තමයි පිටුව එහා මෙහා පනින එක නවතින්නේ */
 }
 
 .sinhala-text { font-family: 'Noto Sans Sinhala', sans-serif; }
