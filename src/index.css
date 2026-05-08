@@ -1,29 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Noto+Sans+Sinhala:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 🌟 Thorana Core Animations 🌟 */
-@keyframes light-flow {
-  from { stroke-dashoffset: 100; }
-  to { stroke-dashoffset: 0; }
+:root {
+  --gold: #FFD700;
+  --dark-gold: #B8860B;
 }
 
-@keyframes frame-glow {
-  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4)); }
-  50% { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8)); }
+@keyframes chase {
+  to { stroke-dashoffset: -100; }
 }
 
-.animate-flow { animation: light-flow 3s linear infinite; }
-.animate-flow-fast { animation: light-flow 1.5s linear infinite; }
-.thorana-frame-glow { animation: frame-glow 4s ease-in-out infinite; }
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 5px var(--gold)); opacity: 1; }
+  50% { filter: drop-shadow(0 0 20px var(--gold)); opacity: 0.8; }
+}
+
+/* ඉතාමත් හෙමින් දුවන ලයිට් */
+.light-slow { animation: chase 10s linear infinite; }
+.light-medium { animation: chase 6s linear infinite; }
+.frame-glow { animation: pulse-glow 3s ease-in-out infinite; }
 
 body {
-  background-color: #000;
+  background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
   margin: 0;
-  overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  color: white;
 }
 
 .sinhala-text { font-family: 'Noto Sans Sinhala', sans-serif; }
