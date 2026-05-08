@@ -4,30 +4,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --gold: #FFD700;
-  --dark-gold: #B8860B;
+/* 🌟 සාම්ප්‍රදායික තොරණක ලයිට් රටා 🌟 */
+@keyframes light-run {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
 }
 
-@keyframes chase {
-  to { stroke-dashoffset: -100; }
+@keyframes frame-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px #ffd700); }
+  50% { filter: drop-shadow(0 0 25px #ff8c00); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { filter: drop-shadow(0 0 5px var(--gold)); opacity: 1; }
-  50% { filter: drop-shadow(0 0 20px var(--gold)); opacity: 0.8; }
-}
-
-/* ඉතාමත් හෙමින් දුවන ලයිට් */
-.light-slow { animation: chase 10s linear infinite; }
-.light-medium { animation: chase 6s linear infinite; }
-.frame-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-light-slow { animation: light-run 6s linear infinite; }
+.animate-light-fast { animation: light-run 2s linear infinite; }
+.thorana-frame { animation: frame-glow 4s ease-in-out infinite; }
 
 body {
-  background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+  background: radial-gradient(circle, #1a0f00 0%, #000000 100%);
   margin: 0;
-  overflow-x: hidden;
-  color: white;
+  overflow: hidden; /* Scroll වීම වැලැක්වීමට */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .sinhala-text { font-family: 'Noto Sans Sinhala', sans-serif; }
