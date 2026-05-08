@@ -8,81 +8,69 @@ import { WavingFlag } from './WavingFlag';
 const baseUrl = import.meta.env.BASE_URL || '/';
 
 const jatakaStories = [
-  { title: 'Vessantara', image: `${baseUrl}images/thorana/panel1.png` },
-  { title: 'Sama', image: `${baseUrl}images/thorana/panel2.png` },
-  { title: 'Temiya', image: `${baseUrl}images/thorana/panel3.png` },
-  { title: 'Mahajanaka', image: `${baseUrl}images/thorana/panel4.png` },
-  { title: 'Nemi', image: `${baseUrl}images/thorana/panel5.png` },
-  { title: 'Mahosadha', image: `${baseUrl}images/thorana/panel6.png` },
-  { title: 'Bhuridatta', image: `${baseUrl}images/thorana/panel7.png` },
-  { title: 'Sivi', image: `${baseUrl}images/thorana/panel8.png` },
+  { title: 'වෙස්සන්තර ජාතකය', image: `${baseUrl}images/thorana/panel1.png`, x: '20%', y: '35%' },
+  { title: 'සාම ජාතකය', image: `${baseUrl}images/thorana/panel2.png`, x: '80%', y: '35%' },
+  { title: 'තේමිය ජාතකය', image: `${baseUrl}images/thorana/panel3.png`, x: '15%', y: '60%' },
+  { title: 'මහාජනක ජාතකය', image: `${baseUrl}images/thorana/panel4.png`, x: '85%', y: '60%' },
+  { title: 'නේමි ජාතකය', image: `${baseUrl}images/thorana/panel5.png`, x: '25%', y: '82%' },
+  { title: 'මහෝසධ ජාතකය', image: `${baseUrl}images/thorana/panel6.png`, x: '75%', y: '82%' },
+  { title: 'භූරිදත්ත ජාතකය', image: `${baseUrl}images/thorana/panel7.png`, x: '42%', y: '92%' },
+  { title: 'සිවි ජාතකය', image: `${baseUrl}images/thorana/panel8.png`, x: '58%', y: '92%' },
 ];
 
 export default function Pandol() {
   const [hasStarted, setHasStarted] = useState(false);
 
   return (
-    <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-black overflow-hidden">
       <AnimatePresence>
         {!hasStarted ? (
           <motion.button 
-            exit={{ opacity: 0, scale: 0.9 }}
+            exit={{ opacity: 0 }}
             onClick={() => setHasStarted(true)}
-            className="z-50 px-12 py-5 bg-gradient-to-b from-yellow-500 to-yellow-700 text-black font-black rounded-full shadow-[0_0_50px_gold] border-4 border-yellow-300 text-2xl uppercase"
+            className="z-50 px-12 py-5 bg-yellow-600 text-white font-bold rounded-full border-4 border-yellow-400 shadow-[0_0_30px_gold] text-xl sinhala-text"
           >
             තොරණ නැරඹීම ආරම්භ කරන්න
           </motion.button>
         ) : (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full h-full flex flex-col items-center justify-center relative p-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full h-full flex flex-col items-center justify-center p-4">
             
-            {/* Top Flag Decoration */}
-            <div className="absolute top-4 z-10 scale-75 md:scale-90"><WavingFlag /></div>
+            {/* Top Flag */}
+            <div className="z-10 scale-90 mb-[-20px]"><WavingFlag /></div>
 
-            {/* 🎯 MAIN STRUCTURE (ONE FRAME) 🎯 */}
-            <div className="relative w-full max-w-[85vh] aspect-square flex items-center justify-center thorana-frame-glow">
+            {/* 🎯 MAIN THORANA STRUCTURE 🎯 */}
+            <div className="relative w-[95vmin] max-w-[800px] h-[80vh] flex items-center justify-center">
               
-              {/* 🖼️ The Decorative Ornate Frame (බිත්තිය/සැකිල්ල) */}
-              <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full z-0 fill-none">
-                {/* Outer frame structure like your screenshot */}
-                <circle cx="250" cy="250" r="240" stroke="#8B4513" strokeWidth="8" opacity="0.5" />
-                <circle cx="250" cy="250" r="230" stroke="#FFD700" strokeWidth="4" />
-                {/* Decorative gold ornaments */}
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <circle 
-                    key={i} 
-                    cx={250 + 230 * Math.cos(i * 15 * Math.PI / 180)} 
-                    cy={250 + 230 * Math.sin(i * 15 * Math.PI / 180)} 
-                    r="6" fill="#FFD700" className="animate-pulse"
-                  />
-                ))}
+              {/* 🖼️ Traditional Wooden-Style Frame (SVG) */}
+              <svg viewBox="0 0 500 600" className="absolute inset-0 w-full h-full z-0 opacity-40">
+                <path d="M250 50 L450 250 L450 550 L50 550 L50 250 Z" stroke="#8B4513" strokeWidth="15" fill="none" />
+                <path d="M250 60 L440 255 L440 540 L60 540 L60 255 Z" stroke="#FFD700" strokeWidth="3" fill="none" className="frame-glow" />
               </svg>
 
-              {/* 1. Center Aura */}
-              <div className="absolute w-[45%] h-[45%] z-10"><Aura /></div>
-
-              {/* 2. Central Buddha Image */}
-              <div className="relative w-[38%] h-[38%] z-30 flex items-center justify-center">
+              {/* Center Buddha Section */}
+              <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] h-[45%] flex items-center justify-center">
+                <Aura />
                 <img 
                   src={`${baseUrl}images/thorana/buddha.png`} 
-                  className="w-full h-full object-contain drop-shadow-[0_0_30px_gold]"
-                  fetchpriority="high"
+                  className="relative z-30 w-[70%] object-contain drop-shadow-[0_0_40px_rgba(255,215,0,0.8)]" 
                 />
               </div>
 
-              {/* 3. 8 Jataka Medallions (Inside the frame) */}
+              {/* 8 Panels arranged in Thorana Shape */}
               {jatakaStories.map((story, index) => (
                 <Medallion 
                   key={index} 
                   image={story.image} 
                   title={story.title} 
-                  angle={index * 45} 
-                  delay={index * 0.1} 
+                  x={story.x} 
+                  y={story.y} 
+                  delay={index * 0.15} 
                 />
               ))}
             </div>
 
-            {/* 4. Bottom Banner - Integrated into layout */}
-            <div className="w-full max-w-[800px] z-40 -mt-8 md:-mt-12 scale-90 md:scale-100">
+            {/* Bottom Banner */}
+            <div className="w-full max-w-[750px] z-40 mt-[-20px]">
               <Banner />
             </div>
 
