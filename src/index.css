@@ -4,44 +4,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🌟 Advanced Thorana Light Animations 🌟 */
-@keyframes run-forward {
+/* 🌟 Thorana Core Animations 🌟 */
+@keyframes light-flow {
   from { stroke-dashoffset: 100; }
   to { stroke-dashoffset: 0; }
 }
 
-@keyframes run-backward {
-  from { stroke-dashoffset: 0; }
-  to { stroke-dashoffset: 100; }
+@keyframes frame-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4)); }
+  50% { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8)); }
 }
 
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes spin-slow-reverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
-@keyframes blink-fast {
-  0%, 100% { opacity: 1; filter: brightness(1.5); }
-  50% { opacity: 0.2; filter: brightness(0.5); }
-}
-
-/* Utilities for React Components */
-.light-chase { animation: run-forward 1.5s linear infinite; }
-.light-chase-fast { animation: run-forward 0.8s linear infinite; }
-.light-chase-reverse { animation: run-backward 1.2s linear infinite; }
-.aura-spin { animation: spin-slow 15s linear infinite; transform-origin: center; }
-.aura-spin-reverse { animation: spin-slow-reverse 20s linear infinite; transform-origin: center; }
-.bulb-blink { animation: blink-fast 0.5s steps(2, start) infinite; }
+.animate-flow { animation: light-flow 3s linear infinite; }
+.animate-flow-fast { animation: light-flow 1.5s linear infinite; }
+.thorana-frame-glow { animation: frame-glow 4s ease-in-out infinite; }
 
 body {
   background-color: #000;
   margin: 0;
-  overflow: hidden; /* මේකෙන් තමයි පිටුව එහා මෙහා පනින එක නවතින්නේ */
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
 .sinhala-text { font-family: 'Noto Sans Sinhala', sans-serif; }
