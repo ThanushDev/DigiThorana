@@ -40,45 +40,55 @@ export default function Pandol() {
     <div className="h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden relative">
       <audio ref={audioRef} src={`${baseUrl}vesak-music.mp3`} loop />
 
-      {/* Mute Button */}
       {hasStarted && (
-        <button onClick={toggleMute} className="absolute top-4 right-4 z-[100] p-2 bg-yellow-600/20 border border-yellow-500 rounded-full text-yellow-500">
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        <button onClick={toggleMute} className="absolute top-6 right-6 z-[100] p-3 bg-yellow-600/20 border border-yellow-500 rounded-full text-yellow-500 shadow-lg">
+          {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
         </button>
       )}
 
       <AnimatePresence>
         {!hasStarted ? (
-          <motion.button exit={{ opacity: 0 }} onClick={start} className="z-50 px-10 py-4 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_30px_gold] border-2 border-yellow-400">
+          <motion.button exit={{ opacity: 0 }} onClick={start} className="z-50 px-12 py-5 bg-yellow-600 text-white font-bold rounded-full shadow-[0_0_40px_gold] border-2 border-yellow-400 text-xl">
             තොරණ නැරඹීම ආරම්භ කරන්න
           </motion.button>
         ) : (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full w-full flex flex-col items-center justify-between py-4 relative">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full w-full flex flex-col items-center justify-between py-2 relative">
             
-            {/* Top Flag */}
-            <div className="z-10 scale-75 md:scale-90">
+            <div className="z-10 scale-75 md:scale-90 mt-2">
               <WavingFlag />
             </div>
 
-            {/* Central Pandol Structure */}
-            <div className="relative w-[85vmin] h-[85vmin] flex items-center justify-center">
+            {/* Main Center Container - සියල්ල එකම තැනක */}
+            <div className="relative w-[88vmin] h-[88vmin] flex items-center justify-center">
               
-              {/* 1. Background Aura (පිටුපස රැස් වළල්ල) */}
-              <Aura />
-
-              {/* 2. Central Buddha (Transparent Image) */}
-              <div className="relative w-[30%] h-[30%] z-30 flex items-center justify-center">
-                <img src={`${baseUrl}images/thorana/buddha.png`} className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(255,215,0,0.5)]" />
+              {/* 1. රැස් වළල්ල (Aura) - පිටුපස */}
+              <div className="absolute inset-0 z-0">
+                <Aura />
               </div>
 
-              {/* 3. Medallions + Ornate Skeleton */}
+              {/* 2. මැද බුදුරූපය - Aura එකට උඩින් */}
+              <div className="relative w-[32%] h-[32%] z-30 flex items-center justify-center">
+                <img 
+                  src={`${baseUrl}images/thorana/buddha.png`} 
+                  className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(255,215,0,0.6)]" 
+                />
+              </div>
+
+              {/* 3. පැනල 8 - එකම කේන්ද්‍රයක */}
               {jatakaStories.map((story, index) => (
-                <Medallion key={index} image={story.image} title={story.title} angle={index * 45} delay={index * 0.1} patternIndex={index + 1} />
+                <Medallion 
+                  key={index} 
+                  image={story.image} 
+                  title={story.title} 
+                  angle={index * 45} 
+                  delay={index * 0.1} 
+                  patternIndex={index + 1} 
+                />
               ))}
             </div>
 
             {/* Bottom Banner */}
-            <div className="w-[90%] max-w-[850px] z-40 mb-2">
+            <div className="w-[95%] max-w-[800px] z-40 mb-4 scale-90 md:scale-100">
               <Banner />
             </div>
 
