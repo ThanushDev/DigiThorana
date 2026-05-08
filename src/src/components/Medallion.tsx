@@ -2,23 +2,23 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 interface MedallionProps {
-  image: string; title: string; x: string; y: string; delay: number;
+  image: string; title: string; x: string; y: string; delay: number; size?: string;
 }
 
-export function Medallion({ image, title, x, y, delay }: MedallionProps) {
+export function Medallion({ image, title, x, y, delay, size = "w-[18%] h-[18%]" }: MedallionProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1 }}
-      className="absolute w-[20%] h-[20%] flex flex-col items-center"
+      className={`absolute ${size} flex flex-col items-center z-20`}
       style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
     >
-      {/* Ornate Frame for each panel */}
-      <div className="relative w-full h-full p-1 rounded-full bg-gradient-to-b from-yellow-400 to-yellow-800 shadow-[0_0_15px_rgba(255,215,0,0.4)]">
-        {/* Chasing lights around image */}
-        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full scale-[1.1] z-10">
-          <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="1" strokeDasharray="2 6" className="light-medium" />
+      {/* පැනලයේ පිටත ලයිට් සහ Frame එක */}
+      <div className="relative w-full aspect-square p-1 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-800 shadow-[0_0_20px_rgba(255,215,0,0.5)]">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full scale-[1.15] z-10">
+          <circle cx="50" cy="50" r="48" fill="none" stroke="#FFD700" strokeWidth="2" strokeDasharray="4 8" className="animate-light-slow" />
+          <circle cx="50" cy="50" r="44" fill="none" stroke="white" strokeWidth="1" strokeDasharray="1 4" className="animate-light-fast" />
         </svg>
         
         <div className="w-full h-full rounded-full overflow-hidden border-2 border-black bg-black">
@@ -26,7 +26,7 @@ export function Medallion({ image, title, x, y, delay }: MedallionProps) {
         </div>
       </div>
       
-      <span className="mt-2 text-[9px] md:text-[11px] font-bold text-yellow-400 sinhala-text text-center leading-tight drop-shadow-md">
+      <span className="mt-2 text-[9px] md:text-[11px] font-bold text-yellow-300 sinhala-text text-center bg-black/60 px-2 rounded-md border border-yellow-900/50">
         {title}
       </span>
     </motion.div>
